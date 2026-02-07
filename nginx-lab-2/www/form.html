@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ доставки еды</title>
+</head>
+<body>
+    <h1>Заказ доставки еды</h1>
+    
+    <form id="foodOrderForm">
+
+        <label for="name">Ваше имя:</label><br>
+        <input type="text" id="name" name="name" placeholder="Введите имя" required><br><br>
+        
+        <label for="dishes">Количество блюд:</label><br>
+        <input type="number" id="dishes" name="dishes" min="1" max="10" value="1" required><br><br>
+        
+        <label for="restaurant">Ресторан:</label><br>
+        <select id="restaurant" name="restaurant" required>
+            <option value="" disabled selected>Выберите ресторан</option>
+            <option value="pizza_house">Пицца Хаус</option>
+            <option value="sushi_master">Суши Мастер</option>
+            <option value="burger_king">Бургер Кинг</option>
+            <option value="asia_wok">Азия Вок</option>
+        </select><br><br>
+        
+        <input type="checkbox" id="online_payment" name="online_payment" value="yes">
+        <label for="online_payment">Оплата онлайн</label><br><br>
+        
+        <p>Тип упаковки:</p>
+        <input type="radio" id="package_standard" name="package_type" value="standard" checked>
+        <label for="package_standard">Стандартная</label><br>
+        
+        <input type="radio" id="package_eco" name="package_type" value="eco">
+        <label for="package_eco">Экологичная</label><br>
+        
+        <input type="radio" id="package_gift" name="package_type" value="gift">
+        <label for="package_gift">Подарочная</label><br><br>
+        
+        <button type="submit">Оформить заказ</button>
+    </form>
+    
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("foodOrderForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById("name").value;
+            const dishes = document.getElementById("dishes").value;
+            const restaurant = document.getElementById("restaurant").value;
+            const onlinePayment = document.getElementById("online_payment").checked ? "Да" : "Нет";
+            
+            const packageType = document.querySelector('input[name="package_type"]:checked').value;
+            let packageTypeText = "";
+            switch(packageType) {
+                case "standard": packageTypeText = "Стандартная"; break;
+                case "eco": packageTypeText = "Экологичная"; break;
+                case "gift": packageTypeText = "Подарочная"; break;
+            }
+            
+            const restaurantSelect = document.getElementById("restaurant");
+            const restaurantText = restaurantSelect.options[restaurantSelect.selectedIndex].text;
+            
+            alert("Заказ принят!\n\nИмя: " + name + "\nКоличество блюд: " + dishes + "\nРесторан: " + restaurantText + "\nОплата онлайн: " + onlinePayment + "\nТип упаковки: " + packageTypeText);
+            
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = 
+                "<h3>Детали заказа:</h3>" +
+                "<p><strong>Имя:</strong> " + name + "</p>" +
+                "<p><strong>Количество блюд:</strong> " + dishes + "</p>" +
+                "<p><strong>Ресторан:</strong> " + restaurantText + "</p>" +
+                "<p><strong>Оплата онлайн:</strong> " + onlinePayment + "</p>" +
+                "<p><strong>Тип упаковки:</strong> " + packageTypeText + "</p>" +
+                "<p>Ваш заказ будет доставлен в течение 45 минут!</p>";
+        });
+    </script>
+</body>
+</html>
